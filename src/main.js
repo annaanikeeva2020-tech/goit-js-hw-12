@@ -50,13 +50,15 @@ form.addEventListener("submit", async (event) => {
     iziToast.error({
       message: "Something went wrong. Please try again later.",
     });
-  } finally {
+ } finally {
     hideLoader();
   }
 });
 
 loadMoreBtn.addEventListener("click", async () => {
-  page += 1;
+    page += 1;
+
+  hideLoadMoreBtn();
   showLoader();
 
   try {
@@ -67,18 +69,21 @@ loadMoreBtn.addEventListener("click", async () => {
     const totalPages = Math.ceil(data.totalHits / PER_PAGE);
 
     if (page >= totalPages) {
-      hideLoadMoreBtn();
       iziToast.info({
         message:
           "We're sorry, but you've reached the end of search results.",
       });
     }
 
-    smoothScroll();
+      smoothScroll();
+      
   } catch (error) {
     iziToast.error({
       message: "Error loading more images",
     });
+      
+      showLoadMoreBtn();
+      
   } finally {
     hideLoader();
   }
